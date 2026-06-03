@@ -1,15 +1,16 @@
 import { useImageUpload } from './hooks/useImageUpload'
 import { usePixelate } from './hooks/usePixelate'
 import { useZoom } from './hooks/useZoom'
-import { UploadZone } from './components/UploadZone'
+import { EnhancedUploadZone } from './components/EnhancedUploadZone'
 import { ErrorMessage } from './components/ErrorMessage'
 import { ImagePreview } from './components/ImagePreview'
-import { PixelSlider } from './components/PixelSlider'
+import { EnhancedPixelSlider } from './components/EnhancedPixelSlider'
 import { PixelatedPreview } from './components/PixelatedPreview'
 import { ZoomControls } from './components/ZoomControls'
 import { ZoomedCanvas } from './components/ZoomedCanvas'
-import { DownloadButton } from './components/DownloadButton'
+import { EnhancedDownloadButton } from './components/EnhancedDownloadButton'
 import { DownloadSuccess } from './components/DownloadSuccess'
+import { AccessibilityAlert } from './components/AccessibilityAlert'
 import { Tutorial } from './components/Tutorial'
 import { useEffect, useState } from 'react'
 
@@ -19,11 +20,13 @@ function App() {
   const { zoomLevel, zoomIn, zoomOut, resetZoom, canZoomIn, canZoomOut } = useZoom()
   const [showZoomed, setShowZoomed] = useState(false)
   const [showDownloadSuccess, setShowDownloadSuccess] = useState(false)
+  const [a11yMessage, setA11yMessage] = useState('')
 
   // Apply initial pixelation when image loads
   useEffect(() => {
     if (image) {
       applyPixelation(image, pixelSize)
+      setA11yMessage('Image uploaded successfully')
     }
   }, [image])
 
@@ -38,6 +41,7 @@ function App() {
   const handlePixelSizeChange = (newSize: number) => {
     if (image) {
       updatePixelSize(newSize, image)
+      setA11yMessage(`Pixel size changed to ${newSize}px`)
     }
   }
 
@@ -46,10 +50,18 @@ function App() {
     reset()
     resetZoom()
     setShowZoomed(false)
+    setA11yMessage('Image cleared')
   }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      {/* Accessibility Alert */}
+      <AccessibilityAlert
+        message={a11yMessage}
+        type="info"
+        visible={!!a11yMessage}
+      />
+
       {/* Header */}
       <header className="bg-white shadow-sm">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
@@ -73,10 +85,11 @@ function App() {
         {/* Upload Section */}
         <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
           <h2 className="text-2xl font-semibold text-gray-900 mb-6">Step 1: Upload Image</h2>
-          <UploadZone
+          <EnhancedUploadZone
             onImageUpload={handleImageUpload}
             isLoading={loading}
             hasImage={!!image}
+            error={error}
           />
         </div>
 
@@ -86,7 +99,7 @@ function App() {
             {/* Pixel Size Slider */}
             <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
               <h2 className="text-2xl font-semibold text-gray-900 mb-6">Step 2: Adjust Pixel Size</h2>
-              <PixelSlider
+              <EnhancedPixelSlider
                 value={pixelSize}
                 onChange={handlePixelSizeChange}
                 disabled={loading}
@@ -107,10 +120,10 @@ function App() {
               <div className="mb-4">
                 <button
                   onClick={() => setShowZoomed(!showZoomed)}
-                  className={`px-4 py-2 rounded font-medium transition ${
+                  className={`px-4 py-2 rounded font-medium transition focus:outline-none focus:ring-2 focus:ring-offset-2 ${
                     showZoomed
-                      ? 'bg-blue-600 text-white hover:bg-blue-700'
-                      : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
+                      ? 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500'
+                      : 'bg-gray-200 text-gray-800 hover:bg-gray-300 focus:ring-gray-500'
                   }`}
                 >
                   {showZoomed ? '🔍 Zoomed View Active' : '👁️ Normal View'}
@@ -143,7 +156,7 @@ function App() {
               <p className="text-gray-600 mb-6">
                 Download your pixelated image as a Windows icon file (.ico). The server will convert it automatically.
               </p>
-              <DownloadButton
+              <EnhancedDownloadButton
                 canvas={pixelatedCanvas}
                 disabled={!pixelatedCanvas}
                 isLoading={loading}
@@ -155,7 +168,7 @@ function App() {
             <div className="flex gap-4 mb-8">
               <button
                 onClick={handleClearImage}
-                className="flex-1 px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-lg font-medium transition"
+                className="flex-1 px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-lg font-medium transition focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
               >
                 Upload Different Image
               </button>
@@ -170,7 +183,7 @@ function App() {
         {!image && (
           <div className="bg-green-50 border border-green-200 rounded-lg p-6 mt-8">
             <p className="text-green-900">
-              ✅ <strong>Phase 6 Complete:</strong> All features ready! Upload an image and follow the tutorial.
+              ✅ <strong>Phase 7 Complete:</strong> Enhanced with error handling, accessibility, and keyboard navigation!
             </p>
           </div>
         )}
