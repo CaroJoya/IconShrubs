@@ -38,14 +38,14 @@ export function EnhancedDownloadButton({
 
   const handleDownloadICO = async () => {
     if (!canvas) return
-
+  
     setDownloadLoading(true)
     setDownloadError(null)
-
+  
     try {
       const pngDataUrl = canvas.toDataURL('image/png')
       const base64 = pngDataUrl.split(',')[1]
-
+  
       const response = await fetch('/api/convert-to-ico', {
         method: 'POST',
         headers: {
@@ -53,22 +53,28 @@ export function EnhancedDownloadButton({
         },
         body: JSON.stringify({ image: base64 })
       })
-
+  
       if (!response.ok) {
-        const errorData = await response.json()
-        throw new Error(errorData.error || 'Conversion failed')
+        // Try to parse as JSON if it's an error response
+        try {
+          const errorData = await response.json()
+          throw new Error(errorData.error || `Conversion failed (${response.status})`)
+        } catch {
+          throw new Error(`Conversion failed (${response.status})`)
+        }
       }
-
+  
+      // Get the ICO file as blob (don't parse as JSON)
       const blob = await response.blob()
       const url = URL.createObjectURL(blob)
       const link = document.createElement('a')
       link.href = url
       link.download = `pixelicon_${Date.now()}.ico`
-
+  
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
-
+  
       URL.revokeObjectURL(url)
     } catch (error) {
       const friendlyError = getUserFriendlyError(error)

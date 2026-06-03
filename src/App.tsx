@@ -160,7 +160,7 @@ function App() {
                 canvas={pixelatedCanvas}
                 disabled={!pixelatedCanvas}
                 isLoading={loading}
-                format="ico"
+                format="png"
               />
             </div>
 
