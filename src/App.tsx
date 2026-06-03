@@ -8,6 +8,8 @@ import { PixelSlider } from './components/PixelSlider'
 import { PixelatedPreview } from './components/PixelatedPreview'
 import { ZoomControls } from './components/ZoomControls'
 import { ZoomedCanvas } from './components/ZoomedCanvas'
+import { DownloadButton } from './components/DownloadButton'
+import { DownloadSuccess } from './components/DownloadSuccess'
 import { useEffect, useState } from 'react'
 
 function App() {
@@ -15,6 +17,7 @@ function App() {
   const { pixelSize, pixelatedCanvas, updatePixelSize, applyPixelation, reset } = usePixelate()
   const { zoomLevel, zoomIn, zoomOut, resetZoom, canZoomIn, canZoomOut } = useZoom()
   const [showZoomed, setShowZoomed] = useState(false)
+  const [showDownloadSuccess, setShowDownloadSuccess] = useState(false)
 
   // Apply initial pixelation when image loads
   useEffect(() => {
@@ -22,6 +25,14 @@ function App() {
       applyPixelation(image, pixelSize)
     }
   }, [image])
+
+  // Hide success message after 3 seconds
+  useEffect(() => {
+    if (showDownloadSuccess) {
+      const timer = setTimeout(() => setShowDownloadSuccess(false), 3000)
+      return () => clearTimeout(timer)
+    }
+  }, [showDownloadSuccess])
 
   const handlePixelSizeChange = (newSize: number) => {
     if (image) {
@@ -34,6 +45,10 @@ function App() {
     reset()
     resetZoom()
     setShowZoomed(false)
+  }
+
+  const handleDownloadClick = () => {
+    setShowDownloadSuccess(true)
   }
 
   return (
@@ -125,6 +140,22 @@ function App() {
               )}
             </div>
 
+            {/* Download Section */}
+            <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
+              <h2 className="text-2xl font-semibold text-gray-900 mb-6">Step 4: Download</h2>
+              <p className="text-gray-600 mb-6">
+                Ready to download? Click below to save as PNG. (Phase 5 will add .ico conversion)
+              </p>
+              <DownloadButton
+                canvas={pixelatedCanvas}
+                disabled={!pixelatedCanvas}
+                isLoading={loading}
+              />
+              <p className="text-xs text-gray-500 mt-4 text-center">
+                File will be saved as pixelicon_[timestamp].png
+              </p>
+            </div>
+
             {/* Action Buttons */}
             <div className="flex gap-4">
               <button
@@ -132,12 +163,6 @@ function App() {
                 className="flex-1 px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-lg font-medium transition"
               >
                 Upload Different Image
-              </button>
-              <button
-                disabled
-                className="flex-1 px-6 py-3 bg-gray-300 text-gray-500 rounded-lg font-medium cursor-not-allowed opacity-50"
-              >
-                Download (Phase 4)
               </button>
             </div>
           </>
@@ -147,11 +172,17 @@ function App() {
         {!image && (
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
             <p className="text-blue-900">
-              ✅ <strong>Phase 3 Ready:</strong> Upload an image, adjust pixels, and zoom in to see details!
+              ✅ <strong>Phase 4 Ready:</strong> Upload an image and download as PNG!
             </p>
           </div>
         )}
       </main>
+
+      {/* Download Success Toast */}
+      <DownloadSuccess
+        visible={showDownloadSuccess}
+        onDismiss={() => setShowDownloadSuccess(false)}
+      />
 
       {/* Footer */}
       <footer className="bg-white mt-12 border-t border-gray-200">
