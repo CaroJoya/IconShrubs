@@ -2,8 +2,8 @@ interface DownloadButtonProps {
     canvas: HTMLCanvasElement | null
     disabled?: boolean
     isLoading?: boolean
+    format: 'png' | 'ico'
   }
-  
   export function DownloadButton({ canvas, disabled = false, isLoading = false }: DownloadButtonProps) {
     const handleDownloadPNG = () => {
       if (!canvas) return
