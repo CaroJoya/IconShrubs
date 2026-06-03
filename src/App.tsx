@@ -1,15 +1,20 @@
 import { useImageUpload } from './hooks/useImageUpload'
 import { usePixelate } from './hooks/usePixelate'
+import { useZoom } from './hooks/useZoom'
 import { UploadZone } from './components/UploadZone'
 import { ErrorMessage } from './components/ErrorMessage'
 import { ImagePreview } from './components/ImagePreview'
 import { PixelSlider } from './components/PixelSlider'
 import { PixelatedPreview } from './components/PixelatedPreview'
-import { useEffect } from 'react'
+import { ZoomControls } from './components/ZoomControls'
+import { ZoomedCanvas } from './components/ZoomedCanvas'
+import { useEffect, useState } from 'react'
 
 function App() {
   const { image, error, loading, handleImageUpload, clearImage } = useImageUpload()
   const { pixelSize, pixelatedCanvas, updatePixelSize, applyPixelation, reset } = usePixelate()
+  const { zoomLevel, zoomIn, zoomOut, resetZoom, canZoomIn, canZoomOut } = useZoom()
+  const [showZoomed, setShowZoomed] = useState(false)
 
   // Apply initial pixelation when image loads
   useEffect(() => {
@@ -27,6 +32,8 @@ function App() {
   const handleClearImage = () => {
     clearImage()
     reset()
+    resetZoom()
+    setShowZoomed(false)
   }
 
   return (
@@ -82,8 +89,40 @@ function App() {
 
             {/* Pixelated Preview */}
             <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-6">Pixelated Preview</h2>
-              <PixelatedPreview canvas={pixelatedCanvas} loading={loading} />
+              <h2 className="text-2xl font-semibold text-gray-900 mb-6">Step 3: Preview & Zoom</h2>
+
+              {/* Toggle between normal and zoomed view */}
+              <div className="mb-4">
+                <button
+                  onClick={() => setShowZoomed(!showZoomed)}
+                  className={`px-4 py-2 rounded font-medium transition ${
+                    showZoomed
+                      ? 'bg-blue-600 text-white hover:bg-blue-700'
+                      : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
+                  }`}
+                >
+                  {showZoomed ? '🔍 Zoomed View Active' : '👁️ Normal View'}
+                </button>
+              </div>
+
+              {/* Show zoom controls when in zoomed view */}
+              {showZoomed && pixelatedCanvas && (
+                <ZoomControls
+                  zoomLevel={zoomLevel}
+                  onZoomIn={zoomIn}
+                  onZoomOut={zoomOut}
+                  onReset={resetZoom}
+                  canZoomIn={canZoomIn}
+                  canZoomOut={canZoomOut}
+                />
+              )}
+
+              {/* Display appropriate preview */}
+              {showZoomed ? (
+                <ZoomedCanvas canvas={pixelatedCanvas} zoomLevel={zoomLevel} />
+              ) : (
+                <PixelatedPreview canvas={pixelatedCanvas} loading={loading} />
+              )}
             </div>
 
             {/* Action Buttons */}
@@ -98,7 +137,7 @@ function App() {
                 disabled
                 className="flex-1 px-6 py-3 bg-gray-300 text-gray-500 rounded-lg font-medium cursor-not-allowed opacity-50"
               >
-                Download (Phase 3)
+                Download (Phase 4)
               </button>
             </div>
           </>
@@ -108,7 +147,7 @@ function App() {
         {!image && (
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
             <p className="text-blue-900">
-              ✅ <strong>Phase 2 Ready:</strong> Upload an image and adjust the pixel slider!
+              ✅ <strong>Phase 3 Ready:</strong> Upload an image, adjust pixels, and zoom in to see details!
             </p>
           </div>
         )}
