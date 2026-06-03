@@ -1,10 +1,33 @@
 import { useImageUpload } from './hooks/useImageUpload'
+import { usePixelate } from './hooks/usePixelate'
 import { UploadZone } from './components/UploadZone'
 import { ErrorMessage } from './components/ErrorMessage'
 import { ImagePreview } from './components/ImagePreview'
+import { PixelSlider } from './components/PixelSlider'
+import { PixelatedPreview } from './components/PixelatedPreview'
+import { useEffect } from 'react'
 
 function App() {
   const { image, error, loading, handleImageUpload, clearImage } = useImageUpload()
+  const { pixelSize, pixelatedCanvas, updatePixelSize, applyPixelation, reset } = usePixelate()
+
+  // Apply initial pixelation when image loads
+  useEffect(() => {
+    if (image) {
+      applyPixelation(image, pixelSize)
+    }
+  }, [image])
+
+  const handlePixelSizeChange = (newSize: number) => {
+    if (image) {
+      updatePixelSize(newSize, image)
+    }
+  }
+
+  const handleClearImage = () => {
+    clearImage()
+    reset()
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
@@ -23,8 +46,8 @@ function App() {
         {/* Error Message */}
         {error && (
           <ErrorMessage
-              message={error}
-              onDismiss={() => clearImage()}
+            message={error}
+            onDismiss={() => handleClearImage()}
           />
         )}
 
@@ -38,25 +61,54 @@ function App() {
           />
         </div>
 
-        {/* Preview Section */}
+        {/* Original & Pixelated Preview Section */}
         {image && (
-          <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
-            <h2 className="text-2xl font-semibold text-gray-900 mb-6">Original Image</h2>
-            <ImagePreview image={image} loading={loading} />
-            <button
-              onClick={clearImage}
-              className="mt-4 px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-lg font-medium transition"
-            >
-              Upload Different Image
-            </button>
-          </div>
+          <>
+            {/* Pixel Size Slider */}
+            <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
+              <h2 className="text-2xl font-semibold text-gray-900 mb-6">Step 2: Adjust Pixel Size</h2>
+              <PixelSlider
+                value={pixelSize}
+                onChange={handlePixelSizeChange}
+                disabled={loading}
+              />
+            </div>
+
+            {/* Original Image */}
+            <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
+              <h2 className="text-2xl font-semibold text-gray-900 mb-6">Original Image</h2>
+              <ImagePreview image={image} loading={loading} />
+            </div>
+
+            {/* Pixelated Preview */}
+            <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
+              <h2 className="text-2xl font-semibold text-gray-900 mb-6">Pixelated Preview</h2>
+              <PixelatedPreview canvas={pixelatedCanvas} loading={loading} />
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex gap-4">
+              <button
+                onClick={handleClearImage}
+                className="flex-1 px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-lg font-medium transition"
+              >
+                Upload Different Image
+              </button>
+              <button
+                disabled
+                className="flex-1 px-6 py-3 bg-gray-300 text-gray-500 rounded-lg font-medium cursor-not-allowed opacity-50"
+              >
+                Download (Phase 3)
+              </button>
+            </div>
+          </>
         )}
 
         {/* Info Box */}
         {!image && (
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
             <p className="text-blue-900">
-              ✅ <strong>Phase 1 Complete:</strong> Upload and validate images. Next: Pixelation engine!
+              ✅ <strong>Phase 2 Ready:</strong> Upload an image and adjust the pixel slider!
             </p>
           </div>
         )}

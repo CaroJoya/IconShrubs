@@ -18,7 +18,7 @@ export function useImageUpload() {
       setError(null)
     } else {
       setImage(null)
-      setError(result.error)
+      setError((result as ValidationError).error)
     }
 
     setLoading(false)
