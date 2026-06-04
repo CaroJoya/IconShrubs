@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react'
 import { LoadingSpinner } from './LoadingSpinner'
+import { Cloud, Upload, Sparkles } from 'lucide-react'
 
 interface EnhancedUploadZoneProps {
   onImageUpload: (file: File) => void
@@ -73,14 +74,20 @@ export function EnhancedUploadZone({
       role="button"
       tabIndex={0}
       aria-label="Upload image area. Drag and drop or press Enter to select file"
-      className={`border-2 border-dashed rounded-lg p-12 text-center cursor-pointer transition-all ${
+      className={`relative overflow-hidden rounded-2xl border-2 border-dashed transition-all duration-300 cursor-pointer ${
         isDragging
-          ? 'border-blue-500 bg-blue-50 ring-2 ring-blue-300'
-          : 'border-gray-300 bg-white hover:border-blue-500 hover:bg-blue-50'
+          ? 'border-purple-400 bg-purple-500/20 scale-105'
+          : 'border-purple-500/30 bg-white/5 hover:border-purple-400 hover:bg-white/10'
       } ${isLoading ? 'opacity-60 pointer-events-none' : ''} ${
-        error ? 'border-red-300 bg-red-50' : ''
+        error ? 'border-red-400 bg-red-500/10' : ''
       }`}
     >
+      {/* Background sparkle effect */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 right-0 w-32 h-32 bg-gradient-to-r from-pink-500/20 to-purple-500/20 rounded-full blur-3xl"></div>
+      </div>
+
       <input
         ref={inputRef}
         type="file"
@@ -90,28 +97,34 @@ export function EnhancedUploadZone({
         aria-hidden="true"
       />
 
-      {isLoading ? (
-        <LoadingSpinner message="Processing image..." />
-      ) : (
-        <>
-          <div className="text-4xl mb-4" aria-hidden="true">
-            ☁️
-          </div>
-          <p className="text-gray-700 font-semibold mb-2">
-            {hasImage ? 'Image loaded! Upload another to replace' : 'Drag & drop image here'}
-          </p>
-          <p className="text-gray-500 text-sm mb-4">or</p>
-          <button
-            onClick={() => inputRef.current?.click()}
-            className="text-blue-600 hover:text-blue-700 font-medium underline focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded"
-          >
-            Browse files
-          </button>
-          <p className="text-gray-400 text-xs mt-4">
-            PNG or JPG • Max 10MB • 64x64 to 2048x2048 pixels
-          </p>
-        </>
-      )}
+      <div className="relative z-10 p-12 text-center">
+        {isLoading ? (
+          <LoadingSpinner message="Processing your mystical image..." />
+        ) : (
+          <>
+            <div className="relative inline-block">
+              <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full blur-xl opacity-50 animate-pulse"></div>
+              <Cloud className="w-16 h-16 text-purple-300 relative z-10 mx-auto mb-4" />
+            </div>
+            <p className="text-purple-100 font-semibold mb-2 text-lg">
+              {hasImage ? '✨ Image ready! Upload another? ✨' : 'Drop your magical image here'}
+            </p>
+            <p className="text-purple-300 text-sm mb-4">or</p>
+            <button
+              onClick={() => inputRef.current?.click()}
+              className="inline-flex items-center gap-2 px-6 py-2 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 text-white font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+            >
+              <Upload className="w-4 h-4" />
+              Browse Files
+            </button>
+            <p className="text-purple-400 text-xs mt-4 flex items-center justify-center gap-1">
+              <Sparkles className="w-3 h-3" />
+              PNG or JPG • Max 10MB • 64x64 to 2048x2048 pixels
+              <Sparkles className="w-3 h-3" />
+            </p>
+          </>
+        )}
+      </div>
     </div>
   )
 }

@@ -1,171 +1,92 @@
+import { Sparkles, Star, Crown, Heart } from 'lucide-react'
+
 export function Tutorial() {
     return (
-      <div className="bg-gray-50 border border-gray-200 rounded-lg p-8 mt-12">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-6">
-            📖 How to Use Your Icon (Windows)
+      <div className="glass-card rounded-2xl p-8 mt-12">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-3xl font-semibold text-purple-100 mb-6 flex items-center gap-3">
+            <Crown className="w-8 h-8 text-purple-300" />
+            📖 Mystical Guide: How to Use Your Icon
+            <Sparkles className="w-6 h-6 text-purple-300" />
           </h2>
   
           <div className="space-y-6">
-            {/* Step 1 */}
-            <div className="flex gap-4">
-              <div className="flex-shrink-0">
-                <div className="flex items-center justify-center h-10 w-10 rounded-full bg-blue-600 text-white font-bold">
-                  1
+            {/* Steps with mystical styling */}
+            {[
+              { step: 1, title: "Right-click the app shortcut", desc: "On your desktop, right-click the application shortcut you want to customize.", icon: "✨" },
+              { step: 2, title: "Select 'Properties'", desc: "From the context menu, click Properties", icon: "🔮" },
+              { step: 3, title: "Click 'Change Icon...'", desc: "In the Properties dialog, look for a button labeled Change Icon... (usually on the Shortcut tab)", icon: "🎨" },
+              { step: 4, title: "Click 'Browse...'", desc: "A dialog will open. Click the Browse... button to select a file.", icon: "📁" },
+              { step: 5, title: "Select your downloaded .ico file", desc: "Navigate to your Downloads folder and select the pixelicon_*.ico file you downloaded from IconShrubs.", icon: "💎" },
+              { step: 6, title: "Click Apply → OK", desc: "Click Apply to preview, then OK to confirm.", icon: "✅" }
+            ].map((step) => (
+              <div key={step.step} className="flex gap-4 group hover:transform hover:translate-x-2 transition-all duration-300">
+                <div className="flex-shrink-0">
+                  <div className="flex items-center justify-center h-12 w-12 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold text-lg shadow-lg">
+                    {step.step}
+                  </div>
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-semibold text-purple-100 text-lg flex items-center gap-2">
+                    {step.icon}
+                    {step.title}
+                  </h3>
+                  <p className="text-purple-300 mt-1">{step.desc}</p>
                 </div>
               </div>
-              <div>
-                <h3 className="font-semibold text-gray-900">Right-click the app shortcut</h3>
-                <p className="text-gray-600 mt-1">
-                  On your desktop, right-click the application shortcut you want to customize.
-                </p>
-              </div>
-            </div>
+            ))}
   
-            {/* Step 2 */}
+            {/* Final step */}
             <div className="flex gap-4">
               <div className="flex-shrink-0">
-                <div className="flex items-center justify-center h-10 w-10 rounded-full bg-blue-600 text-white font-bold">
-                  2
-                </div>
-              </div>
-              <div>
-                <h3 className="font-semibold text-gray-900">Select "Properties"</h3>
-                <p className="text-gray-600 mt-1">
-                  From the context menu, click <code className="bg-gray-200 px-2 py-1 rounded text-sm">Properties</code>
-                </p>
-              </div>
-            </div>
-  
-            {/* Step 3 */}
-            <div className="flex gap-4">
-              <div className="flex-shrink-0">
-                <div className="flex items-center justify-center h-10 w-10 rounded-full bg-blue-600 text-white font-bold">
-                  3
-                </div>
-              </div>
-              <div>
-                <h3 className="font-semibold text-gray-900">Click "Change Icon..." button</h3>
-                <p className="text-gray-600 mt-1">
-                  In the Properties dialog, look for a button labeled <code className="bg-gray-200 px-2 py-1 rounded text-sm">Change Icon...</code> (usually on the Shortcut tab)
-                </p>
-              </div>
-            </div>
-  
-            {/* Step 4 */}
-            <div className="flex gap-4">
-              <div className="flex-shrink-0">
-                <div className="flex items-center justify-center h-10 w-10 rounded-full bg-blue-600 text-white font-bold">
-                  4
-                </div>
-              </div>
-              <div>
-                <h3 className="font-semibold text-gray-900">Click "Browse..."</h3>
-                <p className="text-gray-600 mt-1">
-                  A dialog will open. Click the <code className="bg-gray-200 px-2 py-1 rounded text-sm">Browse...</code> button to select a file.
-                </p>
-              </div>
-            </div>
-  
-            {/* Step 5 */}
-            <div className="flex gap-4">
-              <div className="flex-shrink-0">
-                <div className="flex items-center justify-center h-10 w-10 rounded-full bg-blue-600 text-white font-bold">
-                  5
-                </div>
-              </div>
-              <div>
-                <h3 className="font-semibold text-gray-900">Select your downloaded .ico file</h3>
-                <p className="text-gray-600 mt-1">
-                  Navigate to your Downloads folder and select the <code className="bg-gray-200 px-2 py-1 rounded text-sm">pixelicon_*.ico</code> file you downloaded from PixelIcon.
-                </p>
-              </div>
-            </div>
-  
-            {/* Step 6 */}
-            <div className="flex gap-4">
-              <div className="flex-shrink-0">
-                <div className="flex items-center justify-center h-10 w-10 rounded-full bg-blue-600 text-white font-bold">
-                  6
-                </div>
-              </div>
-              <div>
-                <h3 className="font-semibold text-gray-900">Click Apply → OK</h3>
-                <p className="text-gray-600 mt-1">
-                  Click <code className="bg-gray-200 px-2 py-1 rounded text-sm">Apply</code> to preview, then <code className="bg-gray-200 px-2 py-1 rounded text-sm">OK</code> to confirm.
-                </p>
-              </div>
-            </div>
-  
-            {/* Step 7 */}
-            <div className="flex gap-4">
-              <div className="flex-shrink-0">
-                <div className="flex items-center justify-center h-10 w-10 rounded-full bg-green-600 text-white font-bold">
+                <div className="flex items-center justify-center h-12 w-12 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold text-lg">
                   ✓
                 </div>
               </div>
               <div>
-                <h3 className="font-semibold text-gray-900">Done! Your icon is updated</h3>
-                <p className="text-gray-600 mt-1">
-                  Your desktop shortcut now displays your custom pixel art icon!
+                <h3 className="font-semibold text-purple-100 text-lg flex items-center gap-2">
+                  <Heart className="w-5 h-5 text-pink-400" />
+                  Done! Your icon is updated
+                </h3>
+                <p className="text-purple-300 mt-1">
+                  Your desktop shortcut now displays your custom pixel art icon! ✨
                 </p>
               </div>
             </div>
           </div>
   
-          {/* Visual Example */}
-          <div className="mt-8 pt-8 border-t border-gray-200">
-            <h3 className="font-semibold text-gray-900 mb-4">Visual Example:</h3>
-            <div className="bg-white rounded border border-gray-300 p-4">
-              <img
-                src="/tutorial-screenshot.png"
-                alt="Windows Properties dialog showing Change Icon button"
-                className="w-full max-w-2xl mx-auto rounded border border-gray-200"
-                onError={(e) => {
-                  // Fallback if image not found
-                  e.currentTarget.style.display = 'none'
-                }}
-              />
-              <p className="text-sm text-gray-500 mt-4 text-center">
-                Windows Properties dialog - Change Icon step
-              </p>
-            </div>
-          </div>
-  
-          {/* Additional Tips */}
-          <div className="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <h3 className="font-semibold text-blue-900 mb-2">💡 Pro Tips:</h3>
-            <ul className="text-blue-800 text-sm space-y-2">
-              <li>• Your downloaded .ico file must be saved on your computer</li>
-              <li>• This works for any application shortcut on Windows</li>
-              <li>• The icon changes immediately after clicking OK</li>
-              <li>• You can always change it back by selecting the original icon</li>
-              <li>• For system applications, you may need admin rights</li>
+          {/* Pro Tips */}
+          <div className="mt-8 rounded-xl p-6 bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30">
+            <h3 className="font-semibold text-purple-100 mb-3 flex items-center gap-2">
+              <Sparkles className="w-5 h-5" />
+              💫 Pro Tips for Magical Icons:
+            </h3>
+            <ul className="text-purple-300 text-sm space-y-2">
+              <li>• ✨ Your downloaded .ico file must be saved on your computer</li>
+              <li>• 🎨 This works for any application shortcut on Windows</li>
+              <li>• 🌙 The icon changes immediately after clicking OK</li>
+              <li>• 🔮 You can always change it back by selecting the original icon</li>
+              <li>• ⚡ For system applications, you may need admin rights</li>
             </ul>
           </div>
   
           {/* FAQ */}
           <div className="mt-8">
-            <h3 className="font-semibold text-gray-900 mb-4">❓ FAQ</h3>
+            <h3 className="font-semibold text-purple-100 mb-4 text-xl flex items-center gap-2">
+              <Star className="w-6 h-6" />
+              ❓ Mystical FAQs
+            </h3>
             <div className="space-y-4">
-              <div>
-                <h4 className="font-medium text-gray-900">Q: Can I use this for folder icons?</h4>
-                <p className="text-gray-600 text-sm">
-                  A: This method works best for application shortcuts. Folder icon changing requires a different approach.
-                </p>
-              </div>
-              <div>
-                <h4 className="font-medium text-gray-900">Q: What if the button isn't visible?</h4>
-                <p className="text-gray-600 text-sm">
-                  A: Make sure you're on the "Shortcut" tab in Properties. Some portable apps may not support icon changing.
-                </p>
-              </div>
-              <div>
-                <h4 className="font-medium text-gray-900">Q: Can I undo this change?</h4>
-                <p className="text-gray-600 text-sm">
-                  A: Yes! Follow the same steps but select the original icon file in the "Change Icon" dialog.
-                </p>
-              </div>
+              {[
+                { q: "Can I use this for folder icons?", a: "This method works best for application shortcuts. Folder icon changing requires a different approach." },
+                { q: "What if the button isn't visible?", a: "Make sure you're on the 'Shortcut' tab in Properties. Some portable apps may not support icon changing." },
+                { q: "Can I undo this change?", a: "Yes! Follow the same steps but select the original icon file in the 'Change Icon' dialog." }
+              ].map((faq, i) => (
+                <div key={i} className="p-4 rounded-lg bg-white/5">
+                  <h4 className="font-medium text-purple-100 mb-1">{faq.q}</h4>
+                  <p className="text-purple-300 text-sm">{faq.a}</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>

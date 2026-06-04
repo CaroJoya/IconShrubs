@@ -13,6 +13,7 @@ import { DownloadSuccess } from './components/DownloadSuccess'
 import { AccessibilityAlert } from './components/AccessibilityAlert'
 import { Tutorial } from './components/Tutorial'
 import { useEffect, useState } from 'react'
+import { Sparkles, Moon, Star, Flower, Crown, Download, Heart } from 'lucide-react'
 
 function App() {
   const { image, error, loading, handleImageUpload, clearImage } = useImageUpload()
@@ -54,7 +55,14 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen relative overflow-x-hidden">
+      {/* Mystical Background Elements */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-[128px] opacity-20 animate-pulse"></div>
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-pink-500 rounded-full mix-blend-multiply filter blur-[128px] opacity-20 animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-indigo-500 rounded-full mix-blend-multiply filter blur-[128px] opacity-10 animate-pulse delay-500"></div>
+      </div>
+
       {/* Accessibility Alert */}
       <AccessibilityAlert
         message={a11yMessage}
@@ -62,29 +70,49 @@ function App() {
         visible={!!a11yMessage}
       />
 
-      {/* Header */}
-      <header className="bg-white shadow-sm">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <h1 className="text-3xl font-bold text-gray-900">
-            🎨 PixelIcon
-          </h1>
-          <p className="text-gray-600 mt-2">Convert any image to pixel art & download as .ico</p>
+      {/* Header with Mystical Design */}
+      <header className="relative z-10 glass-card border-b border-purple-500/20">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="flex items-center justify-between flex-wrap gap-4">
+            <div className="flex items-center gap-3">
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full blur-lg opacity-60 animate-pulse"></div>
+                <Crown className="w-10 h-10 text-purple-300 relative z-10" />
+              </div>
+              <div>
+                <h1 className="text-4xl md:text-5xl font-bold">
+                  <span className="gradient-text">IconShrubs</span>
+                </h1>
+                <p className="text-purple-200 mt-1 text-sm">Transform your images into mystical pixel art icons ✨</p>
+              </div>
+            </div>
+            <div className="flex gap-2">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 animate-pulse"></div>
+              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 animate-pulse delay-300"></div>
+              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 animate-pulse delay-700"></div>
+            </div>
+          </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Error Message */}
-        {error && (
-          <ErrorMessage
-            message={error}
-            onDismiss={() => handleClearImage()}
-          />
-        )}
+      <main className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Decorative floating elements */}
+        <div className="absolute top-40 left-0 animate-float opacity-30 pointer-events-none">
+          <Sparkles className="w-6 h-6 text-purple-300" />
+        </div>
+        <div className="absolute bottom-40 right-0 animate-float delay-1000 opacity-30 pointer-events-none">
+          <Moon className="w-8 h-8 text-pink-300" />
+        </div>
 
-        {/* Upload Section */}
-        <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-6">Step 1: Upload Image</h2>
+        {/* Upload Section with Mystical Card */}
+        <div className="glass-card rounded-2xl p-8 mb-8 glass-card-hover">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
+              <Star className="w-5 h-5 text-white" />
+            </div>
+            <h2 className="text-2xl font-semibold text-purple-100">Step 1: Upload Your Image</h2>
+          </div>
           <EnhancedUploadZone
             onImageUpload={handleImageUpload}
             isLoading={loading}
@@ -93,12 +121,25 @@ function App() {
           />
         </div>
 
-        {/* Original & Pixelated Preview Section */}
+        {/* Error Message */}
+        {error && (
+          <ErrorMessage
+            message={error}
+            onDismiss={() => handleClearImage()}
+          />
+        )}
+
+        {/* Image Processing Section */}
         {image && (
           <>
             {/* Pixel Size Slider */}
-            <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-6">Step 2: Adjust Pixel Size</h2>
+            <div className="glass-card rounded-2xl p-8 mb-8 glass-card-hover">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
+                  <Flower className="w-5 h-5 text-white" />
+                </div>
+                <h2 className="text-2xl font-semibold text-purple-100">Step 2: Choose Pixel Magic</h2>
+              </div>
               <EnhancedPixelSlider
                 value={pixelSize}
                 onChange={handlePixelSizeChange}
@@ -106,55 +147,67 @@ function App() {
               />
             </div>
 
-            {/* Original Image */}
-            <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-6">Original Image</h2>
-              <ImagePreview image={image} loading={loading} />
-            </div>
-
-            {/* Pixelated Preview */}
-            <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-6">Step 3: Preview & Zoom</h2>
-
-              {/* Toggle between normal and zoomed view */}
-              <div className="mb-4">
-                <button
-                  onClick={() => setShowZoomed(!showZoomed)}
-                  className={`px-4 py-2 rounded font-medium transition focus:outline-none focus:ring-2 focus:ring-offset-2 ${
-                    showZoomed
-                      ? 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500'
-                      : 'bg-gray-200 text-gray-800 hover:bg-gray-300 focus:ring-gray-500'
-                  }`}
-                >
-                  {showZoomed ? '🔍 Zoomed View Active' : '👁️ Normal View'}
-                </button>
+            {/* Original & Pixelated Side by Side */}
+            <div className="grid md:grid-cols-2 gap-8 mb-8">
+              <div className="glass-card rounded-2xl p-8 glass-card-hover">
+                <h3 className="text-xl font-semibold text-purple-100 mb-4 flex items-center gap-2">
+                  <Sparkles className="w-5 h-5 text-purple-300" />
+                  Original Image
+                </h3>
+                <ImagePreview image={image} loading={loading} />
               </div>
 
-              {/* Show zoom controls when in zoomed view */}
-              {showZoomed && pixelatedCanvas && (
-                <ZoomControls
-                  zoomLevel={zoomLevel}
-                  onZoomIn={zoomIn}
-                  onZoomOut={zoomOut}
-                  onReset={resetZoom}
-                  canZoomIn={canZoomIn}
-                  canZoomOut={canZoomOut}
-                />
-              )}
+              <div className="glass-card rounded-2xl p-8 glass-card-hover">
+                <h3 className="text-xl font-semibold text-purple-100 mb-4 flex items-center gap-2">
+                  <Star className="w-5 h-5 text-purple-300" />
+                  Pixelated Magic
+                </h3>
+                
+                {/* Toggle between normal and zoomed view */}
+                <div className="mb-4">
+                  <button
+                    onClick={() => setShowZoomed(!showZoomed)}
+                    className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500 ${
+                      showZoomed
+                        ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
+                        : 'glass-card text-purple-200 hover:bg-white/10'
+                    }`}
+                  >
+                    {showZoomed ? '🔍 Zoomed View' : '👁️ Normal View'}
+                  </button>
+                </div>
 
-              {/* Display appropriate preview */}
-              {showZoomed ? (
-                <ZoomedCanvas canvas={pixelatedCanvas} zoomLevel={zoomLevel} />
-              ) : (
-                <PixelatedPreview canvas={pixelatedCanvas} loading={loading} />
-              )}
+                {/* Show zoom controls when in zoomed view */}
+                {showZoomed && pixelatedCanvas && (
+                  <ZoomControls
+                    zoomLevel={zoomLevel}
+                    onZoomIn={zoomIn}
+                    onZoomOut={zoomOut}
+                    onReset={resetZoom}
+                    canZoomIn={canZoomIn}
+                    canZoomOut={canZoomOut}
+                  />
+                )}
+
+                {/* Display appropriate preview */}
+                {showZoomed ? (
+                  <ZoomedCanvas canvas={pixelatedCanvas} zoomLevel={zoomLevel} />
+                ) : (
+                  <PixelatedPreview canvas={pixelatedCanvas} loading={loading} />
+                )}
+              </div>
             </div>
 
             {/* Download Section */}
-            <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-6">Step 4: Download</h2>
-              <p className="text-gray-600 mb-6">
-                Download your pixelated image as a Windows icon file (.ico). The server will convert it automatically.
+            <div className="glass-card rounded-2xl p-8 mb-8 glass-card-hover mystical-glow">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
+                  <Download className="w-5 h-5 text-white" />
+                </div>
+                <h2 className="text-2xl font-semibold text-purple-100">Step 3: Download Your Icon</h2>
+              </div>
+              <p className="text-purple-200 mb-6">
+                Transform your pixel art into a Windows icon file (.ico) with mystical powers ✨
               </p>
               <EnhancedDownloadButton
                 canvas={pixelatedCanvas}
@@ -168,7 +221,7 @@ function App() {
             <div className="flex gap-4 mb-8">
               <button
                 onClick={handleClearImage}
-                className="flex-1 px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-lg font-medium transition focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+                className="flex-1 px-6 py-3 glass-card text-purple-200 rounded-lg font-medium transition-all duration-300 hover:bg-white/10 hover:transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-500"
               >
                 Upload Different Image
               </button>
@@ -176,14 +229,15 @@ function App() {
           </>
         )}
 
-        {/* Tutorial Section - Always visible */}
+        {/* Tutorial Section */}
         <Tutorial />
 
         {/* Info Box */}
         {!image && (
-          <div className="bg-green-50 border border-green-200 rounded-lg p-6 mt-8">
-            <p className="text-green-900">
-              ✅ <strong>Phase 7 Complete:</strong> Enhanced with error handling, accessibility, and keyboard navigation!
+          <div className="glass-card rounded-2xl p-8 mt-8 border border-purple-500/30 bg-gradient-to-r from-purple-500/10 to-pink-500/10">
+            <p className="text-purple-200 text-center">
+              ✨ <strong className="text-purple-100">Welcome to IconShrubs!</strong> ✨<br />
+              Transform your images into mystical pixel art and download as Windows icons
             </p>
           </div>
         )}
@@ -196,9 +250,13 @@ function App() {
       />
 
       {/* Footer */}
-      <footer className="bg-white mt-12 border-t border-gray-200">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center text-gray-500 text-sm">
-          <p>Learning Project • Convert Images to Pixel Art Icons</p>
+      <footer className="relative z-10 mt-12 border-t border-purple-500/20 glass-card">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center">
+          <p className="text-purple-300 text-sm flex items-center justify-center gap-2">
+            <Heart className="w-4 h-4 text-pink-400" />
+            Made with mystical energy • Pixel Art Magic
+            <Sparkles className="w-4 h-4 text-purple-400" />
+          </p>
         </div>
       </footer>
     </div>
