@@ -12,22 +12,38 @@ import { EnhancedDownloadButton } from './components/EnhancedDownloadButton'
 import { DownloadSuccess } from './components/DownloadSuccess'
 import { AccessibilityAlert } from './components/AccessibilityAlert'
 import { Tutorial } from './components/Tutorial'
+import { BackgroundRemovalPrompt } from './components/BackgroundRemovalPrompt'
+import { BackgroundRemovalLoader } from './components/BackgroundRemovalLoader'
 import { useEffect, useState } from 'react'
 import { Sparkles, Moon, Star, Flower, Crown, Download, Heart } from 'lucide-react'
 
 function App() {
-  const { image, error, loading, handleImageUpload, clearImage } = useImageUpload()
+  const { 
+    image, 
+    error, 
+    loading, 
+    isRemovingBackground,
+    showBackgroundPrompt,
+    handleImageUpload, 
+    handleBackgroundConfirm,
+    handleBackgroundCancel,
+    clearImage 
+  } = useImageUpload()
   const { pixelSize, pixelatedCanvas, updatePixelSize, applyPixelation, reset } = usePixelate()
   const { zoomLevel, zoomIn, zoomOut, resetZoom, canZoomIn, canZoomOut } = useZoom()
   const [showZoomed, setShowZoomed] = useState(false)
   const [showDownloadSuccess, setShowDownloadSuccess] = useState(false)
   const [a11yMessage, setA11yMessage] = useState('')
+  const [pendingFileName, setPendingFileName] = useState('')
 
   // Apply initial pixelation when image loads
   useEffect(() => {
     if (image) {
       applyPixelation(image, pixelSize)
       setA11yMessage('Image uploaded successfully')
+      if (image.file.name.includes('_nobg')) {
+        setA11yMessage('Background removed! Image ready for pixel art ✨')
+      }
     }
   }, [image])
 
@@ -38,6 +54,13 @@ function App() {
       return () => clearTimeout(timer)
     }
   }, [showDownloadSuccess])
+
+  // Update pending file name when prompt shows
+  useEffect(() => {
+    if (showBackgroundPrompt && image) {
+      // This is handled in the hook, but we'll keep for reference
+    }
+  }, [showBackgroundPrompt])
 
   const handlePixelSizeChange = (newSize: number) => {
     if (image) {
@@ -54,6 +77,10 @@ function App() {
     setA11yMessage('Image cleared')
   }
 
+  // Get the pending file name from the hook state
+  // We need to access it from the hook, so let's modify the hook to expose pendingFile
+  // For now, we'll create a local state to track it
+
   return (
     <div className="min-h-screen relative overflow-x-hidden">
       {/* Mystical Background Elements */}
@@ -62,6 +89,16 @@ function App() {
         <div className="absolute bottom-20 right-10 w-96 h-96 bg-pink-500 rounded-full mix-blend-multiply filter blur-[128px] opacity-20 animate-pulse delay-1000"></div>
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-indigo-500 rounded-full mix-blend-multiply filter blur-[128px] opacity-10 animate-pulse delay-500"></div>
       </div>
+
+      {/* Background Removal Components */}
+      <BackgroundRemovalPrompt
+        isOpen={showBackgroundPrompt}
+        onConfirm={handleBackgroundConfirm}
+        onCancel={handleBackgroundCancel}
+        fileName={image?.file.name || 'your image'}
+      />
+      
+      <BackgroundRemovalLoader isRemoving={isRemovingBackground} />
 
       {/* Accessibility Alert */}
       <AccessibilityAlert
@@ -115,7 +152,7 @@ function App() {
           </div>
           <EnhancedUploadZone
             onImageUpload={handleImageUpload}
-            isLoading={loading}
+            isLoading={loading || isRemovingBackground}
             hasImage={!!image}
             error={error}
           />
@@ -132,6 +169,18 @@ function App() {
         {/* Image Processing Section */}
         {image && (
           <>
+            {/* Background Removal Badge (if background was removed) */}
+            {image.file.name.includes('_nobg') && (
+              <div className="mb-6 p-4 rounded-xl bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30">
+                <div className="flex items-center gap-3">
+                  <Sparkles className="w-5 h-5 text-purple-300" />
+                  <p className="text-purple-200 text-sm">
+                    ✨ Background successfully removed! Your icon will have a transparent background.
+                  </p>
+                </div>
+              </div>
+            )}
+
             {/* Pixel Size Slider */}
             <div className="glass-card rounded-2xl p-8 mb-8 glass-card-hover">
               <div className="flex items-center gap-3 mb-6">
@@ -237,7 +286,8 @@ function App() {
           <div className="glass-card rounded-2xl p-8 mt-8 border border-purple-500/30 bg-gradient-to-r from-purple-500/10 to-pink-500/10">
             <p className="text-purple-200 text-center">
               ✨ <strong className="text-purple-100">Welcome to IconShrubs!</strong> ✨<br />
-              Transform your images into mystical pixel art and download as Windows icons
+              Transform your images into mystical pixel art and download as Windows icons<br />
+              <span className="text-sm text-purple-300 mt-2 block">💡 Tip: PNG images can have their backgrounds removed for better icons!</span>
             </p>
           </div>
         )}
