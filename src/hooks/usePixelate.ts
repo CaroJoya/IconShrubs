@@ -3,7 +3,7 @@ import { ImageData } from '../types/index'
 import { pixelateImage } from '../utils/pixelateImage'
 
 export function usePixelate() {
-  const [pixelSize, setPixelSize] = useState(8)
+  const [pixelSize, setPixelSize] = useState(4)  // Changed from 8 to 4 (more reasonable starting point)
   const [pixelatedCanvas, setPixelatedCanvas] = useState<HTMLCanvasElement | null>(null)
 
   const applyPixelation = useCallback((imageData: ImageData, blockSize: number) => {
@@ -17,7 +17,7 @@ export function usePixelate() {
   }, [applyPixelation])
 
   const reset = useCallback(() => {
-    setPixelSize(8)
+    setPixelSize(4)  // Changed from 8 to 4
     setPixelatedCanvas(null)
   }, [])
 

@@ -19,7 +19,7 @@ interface EnhancedPixelSliderProps {
       const step = 1
       if (e.key === 'ArrowLeft') {
         e.preventDefault()
-        onChange(Math.max(4, value - step))
+        onChange(Math.max(1, value - step))  // Change from 4 to 1
       } else if (e.key === 'ArrowRight') {
         e.preventDefault()
         onChange(Math.min(24, value + step))
@@ -46,11 +46,11 @@ interface EnhancedPixelSliderProps {
         </div>
   
         <div className="flex items-center gap-4">
-          <span className="text-sm text-purple-300 font-medium">4px</span>
+          <span className="text-sm text-purple-300 font-medium">1px</span>  {/* Change from 4px to 1px */}
           <input
             id="pixel-slider"
             type="range"
-            min="4"
+            min="1"  // Change from 4 to 1
             max="24"
             step="1"
             value={value}
@@ -59,18 +59,18 @@ interface EnhancedPixelSliderProps {
             disabled={disabled}
             className="flex-1 h-2 rounded-lg appearance-none cursor-pointer bg-gradient-to-r from-purple-500/30 to-pink-500/30 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-purple-500"
             style={{
-              background: `linear-gradient(to right, #a855f7 ${((value - 4) / 20) * 100}%, rgba(168, 85, 247, 0.2) ${((value - 4) / 20) * 100}%)`
+              background: `linear-gradient(to right, #a855f7 ${((value - 1) / 23) * 100}%, rgba(168, 85, 247, 0.2) ${((value - 1) / 23) * 100}%)`  // Update calculation
             }}
-            aria-label="Adjust pixel block size from 4 to 24 pixels"
+            aria-label="Adjust pixel block size from 1 to 24 pixels"
             aria-valuenow={value}
-            aria-valuemin={4}
+            aria-valuemin={1}  // Change from 4 to 1
             aria-valuemax={24}
           />
           <span className="text-sm text-purple-300 font-medium">24px</span>
         </div>
   
         <p className="text-xs text-purple-400 text-center">
-          ✨ Drag or use arrow keys to adjust pixel block size ✨
+          ✨ Drag or use arrow keys to adjust pixel block size (1px = original quality) ✨
         </p>
       </div>
     )
