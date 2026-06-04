@@ -22,7 +22,7 @@ export function BackgroundRemovalLoader({ isRemoving }: BackgroundRemovalLoaderP
           </h3>
           
           <p className="text-purple-200">
-            Our mystical AI is working its magic ✨
+            Our mystical AI is working its magic 
           </p>
           
           <div className="mt-6 w-full bg-purple-500/20 rounded-full h-2 overflow-hidden">

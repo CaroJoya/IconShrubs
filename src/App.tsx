@@ -159,13 +159,24 @@ function App() {
           <Moon className="w-8 h-8 text-pink-300" />
         </div>
 
+        {/* Welcome Info Box - MOVED TO TOP */}
+        {!image && (
+          <div className="glass-card rounded-2xl p-8 mb-8 border border-purple-500/30 bg-gradient-to-r from-purple-500/10 to-pink-500/10">
+            <p className="text-purple-200 text-center">
+              ✨ <strong className="text-purple-100">Welcome to IconShrubs!</strong> ✨<br />
+              Transform your images into mystical pixel art and download as Windows icons<br />
+              <span className="text-sm text-purple-300 mt-2 block">💡 Tip: Toggle between original and pixelated versions after uploading!</span>
+            </p>
+          </div>
+        )}
+
         {/* Upload Section with Mystical Card */}
         <div className="glass-card rounded-2xl p-8 mb-8 glass-card-hover">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
               <Star className="w-5 h-5 text-white" />
             </div>
-            <h2 className="text-2xl font-semibold text-purple-100">Step 1: Upload Your Image</h2>
+            <h2 className="text-2xl font-semibold text-purple-100"> Upload Your Image</h2>
           </div>
           <EnhancedUploadZone
             onImageUpload={handleImageUpload}
@@ -317,17 +328,6 @@ function App() {
 
         {/* Tutorial Section */}
         <Tutorial />
-
-        {/* Info Box */}
-        {!image && (
-          <div className="glass-card rounded-2xl p-8 mt-8 border border-purple-500/30 bg-gradient-to-r from-purple-500/10 to-pink-500/10">
-            <p className="text-purple-200 text-center">
-              ✨ <strong className="text-purple-100">Welcome to IconShrubs!</strong> ✨<br />
-              Transform your images into mystical pixel art and download as Windows icons<br />
-              <span className="text-sm text-purple-300 mt-2 block">💡 Tip: Toggle between original and pixelated versions after uploading!</span>
-            </p>
-          </div>
-        )}
       </main>
 
       {/* Download Success Toast */}

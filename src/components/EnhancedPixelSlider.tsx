@@ -70,7 +70,7 @@ interface EnhancedPixelSliderProps {
         </div>
   
         <p className="text-xs text-purple-400 text-center">
-          ✨ Drag or use arrow keys to adjust pixel block size (1px = original quality) ✨
+           Drag or use arrow keys to adjust pixel block size (1px = original quality) 
         </p>
       </div>
     )

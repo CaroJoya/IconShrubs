@@ -6,19 +6,19 @@ export function Tutorial() {
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-semibold text-purple-100 mb-6 flex items-center gap-3">
             <Crown className="w-8 h-8 text-purple-300" />
-            📖 Mystical Guide: How to Use Your Icon
+             Mystical Guide: How to Use Your Icon
             <Sparkles className="w-6 h-6 text-purple-300" />
           </h2>
   
           <div className="space-y-6">
             {/* Steps with mystical styling */}
             {[
-              { step: 1, title: "Right-click the app shortcut", desc: "On your desktop, right-click the application shortcut you want to customize.", icon: "✨" },
-              { step: 2, title: "Select 'Properties'", desc: "From the context menu, click Properties", icon: "🔮" },
-              { step: 3, title: "Click 'Change Icon...'", desc: "In the Properties dialog, look for a button labeled Change Icon... (usually on the Shortcut tab)", icon: "🎨" },
-              { step: 4, title: "Click 'Browse...'", desc: "A dialog will open. Click the Browse... button to select a file.", icon: "📁" },
-              { step: 5, title: "Select your downloaded .ico file", desc: "Navigate to your Downloads folder and select the pixelicon_*.ico file you downloaded from IconShrubs.", icon: "💎" },
-              { step: 6, title: "Click Apply → OK", desc: "Click Apply to preview, then OK to confirm.", icon: "✅" }
+              { step: 1, title: "Right-click the app shortcut", desc: "On your desktop, right-click the application shortcut you want to customize." },
+              { step: 2, title: "Select 'Properties'", desc: "From the context menu, click Properties" },
+              { step: 3, title: "Click 'Change Icon...'", desc: "In the Properties dialog, look for a button labeled Change Icon... (usually on the Shortcut tab)" },
+              { step: 4, title: "Click 'Browse...'", desc: "A dialog will open. Click the Browse... button to select a file." },
+              { step: 5, title: "Select your downloaded .ico file", desc: "Navigate to your Downloads folder and select the pixelicon_*.ico file you downloaded from IconShrubs." },
+              { step: 6, title: "Click Apply → OK", desc: "Click Apply to preview, then OK to confirm." }
             ].map((step) => (
               <div key={step.step} className="flex gap-4 group hover:transform hover:translate-x-2 transition-all duration-300">
                 <div className="flex-shrink-0">
@@ -28,7 +28,6 @@ export function Tutorial() {
                 </div>
                 <div className="flex-1">
                   <h3 className="font-semibold text-purple-100 text-lg flex items-center gap-2">
-                    {step.icon}
                     {step.title}
                   </h3>
                   <p className="text-purple-300 mt-1">{step.desc}</p>
@@ -49,7 +48,7 @@ export function Tutorial() {
                   Done! Your icon is updated
                 </h3>
                 <p className="text-purple-300 mt-1">
-                  Your desktop shortcut now displays your custom pixel art icon! ✨
+                  Your desktop shortcut now displays your custom pixel art icon! 
                 </p>
               </div>
             </div>
@@ -62,11 +61,11 @@ export function Tutorial() {
               💫 Pro Tips for Magical Icons:
             </h3>
             <ul className="text-purple-300 text-sm space-y-2">
-              <li>• ✨ Your downloaded .ico file must be saved on your computer</li>
-              <li>• 🎨 This works for any application shortcut on Windows</li>
-              <li>• 🌙 The icon changes immediately after clicking OK</li>
-              <li>• 🔮 You can always change it back by selecting the original icon</li>
-              <li>• ⚡ For system applications, you may need admin rights</li>
+              <li>•  Your downloaded .ico file must be saved on your computer</li>
+              <li>•  This works for any application shortcut on Windows</li>
+              <li>•  The icon changes immediately after clicking OK</li>
+              <li>•  You can always change it back by selecting the original icon</li>
+              <li>•  For system applications, you may need admin rights</li>
             </ul>
           </div>
   

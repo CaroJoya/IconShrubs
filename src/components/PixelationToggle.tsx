@@ -49,7 +49,7 @@ export function PixelationToggle({ usePixelation, onToggle, disabled = false }: 
       </div>
       
       <p className="text-xs text-purple-400 text-center mt-4">
-        ✨ Choose your preferred style before downloading ✨
+         Choose your preferred style before downloading 
       </p>
     </div>
   )

@@ -107,7 +107,7 @@ export function EnhancedUploadZone({
               <Cloud className="w-16 h-16 text-purple-300 relative z-10 mx-auto mb-4" />
             </div>
             <p className="text-purple-100 font-semibold mb-2 text-lg">
-              {hasImage ? '✨ Image ready! Upload another? ✨' : 'Drop your magical image here'}
+              {hasImage ? ' Image ready! Upload another? ' : 'Drop your magical image here'}
             </p>
             <p className="text-purple-300 text-sm mb-4">or</p>
             <button

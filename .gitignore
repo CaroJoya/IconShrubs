@@ -7,10 +7,23 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependencies
 node_modules
 dist
 dist-ssr
 *.local
+
+# Environment variables (CRITICAL for security!)
+.env
+.env.local
+.env.production
+.env.development
+.env*.local
+
+# Build outputs
+build
+.next
+out
 
 # Editor directories and files
 .vscode/*
@@ -22,3 +35,23 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Vercel (optional - some people commit this)
+.vercel
+vercel.json  # Only if you want to keep it secret, otherwise commit it
+
+# Debug files
+*.tsbuildinfo
+
+# Coverage files
+coverage
+*.lcov
+
+# Temporary files
+*.tmp
+*.temp
+.cache

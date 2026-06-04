@@ -67,7 +67,7 @@ export function BackgroundRemovalPrompt({
           </div>
           
           <p className="text-xs text-purple-400 mt-4">
-            ✨ Background removal works best with clear subjects and contrasting backgrounds
+             Background removal works best with clear subjects and contrasting backgrounds
           </p>
         </div>
       </div>
