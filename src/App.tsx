@@ -14,6 +14,7 @@ import { AccessibilityAlert } from './components/AccessibilityAlert'
 import { Tutorial } from './components/Tutorial'
 import { BackgroundRemovalPrompt } from './components/BackgroundRemovalPrompt'
 import { BackgroundRemovalLoader } from './components/BackgroundRemovalLoader'
+import { PixelationToggle } from './components/PixelationToggle'
 import { useEffect, useState } from 'react'
 import { Sparkles, Moon, Star, Flower, Crown, Download, Heart } from 'lucide-react'
 
@@ -29,20 +30,40 @@ function App() {
     handleBackgroundCancel,
     clearImage 
   } = useImageUpload()
-  const { pixelSize, pixelatedCanvas, updatePixelSize, applyPixelation, reset } = usePixelate()
+  const { 
+    pixelSize, 
+    pixelatedCanvas, 
+    usePixelation,
+    updatePixelSize, 
+    togglePixelation,
+    applyPixelation, 
+    reset 
+  } = usePixelate()
   const { zoomLevel, zoomIn, zoomOut, resetZoom, canZoomIn, canZoomOut } = useZoom()
   const [showZoomed, setShowZoomed] = useState(false)
   const [showDownloadSuccess, setShowDownloadSuccess] = useState(false)
   const [a11yMessage, setA11yMessage] = useState('')
-  const [pendingFileName, setPendingFileName] = useState('')
 
   // Apply initial pixelation when image loads
   useEffect(() => {
     if (image) {
-      applyPixelation(image, pixelSize)
+      if (usePixelation) {
+        applyPixelation(image, pixelSize)
+      } else {
+        // Show original image
+        const originalCanvas = document.createElement('canvas')
+        originalCanvas.width = image.canvas.width
+        originalCanvas.height = image.canvas.height
+        const ctx = originalCanvas.getContext('2d')
+        if (ctx) {
+          ctx.drawImage(image.canvas, 0, 0)
+        }
+        // This is handled in togglePixelation, but we need to set initial state
+        togglePixelation(false, image)
+      }
       setA11yMessage('Image uploaded successfully')
       if (image.file.name.includes('_nobg')) {
-        setA11yMessage('Background removed! Image ready for pixel art ✨')
+        setA11yMessage('Background removed! ✨')
       }
     }
   }, [image])
@@ -55,17 +76,17 @@ function App() {
     }
   }, [showDownloadSuccess])
 
-  // Update pending file name when prompt shows
-  useEffect(() => {
-    if (showBackgroundPrompt && image) {
-      // This is handled in the hook, but we'll keep for reference
-    }
-  }, [showBackgroundPrompt])
-
   const handlePixelSizeChange = (newSize: number) => {
     if (image) {
       updatePixelSize(newSize, image)
       setA11yMessage(`Pixel size changed to ${newSize}px`)
+    }
+  }
+
+  const handleTogglePixelation = (enabled: boolean) => {
+    if (image) {
+      togglePixelation(enabled, image)
+      setA11yMessage(enabled ? 'Pixelation enabled ✨' : 'Using original image')
     }
   }
 
@@ -76,10 +97,6 @@ function App() {
     setShowZoomed(false)
     setA11yMessage('Image cleared')
   }
-
-  // Get the pending file name from the hook state
-  // We need to access it from the hook, so let's modify the hook to expose pendingFile
-  // For now, we'll create a local state to track it
 
   return (
     <div className="min-h-screen relative overflow-x-hidden">
@@ -169,7 +186,7 @@ function App() {
         {/* Image Processing Section */}
         {image && (
           <>
-            {/* Background Removal Badge (if background was removed) */}
+            {/* Background Removal Badge */}
             {image.file.name.includes('_nobg') && (
               <div className="mb-6 p-4 rounded-xl bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30">
                 <div className="flex items-center gap-3">
@@ -181,22 +198,31 @@ function App() {
               </div>
             )}
 
-            {/* Pixel Size Slider */}
-            <div className="glass-card rounded-2xl p-8 mb-8 glass-card-hover">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
-                  <Flower className="w-5 h-5 text-white" />
-                </div>
-                <h2 className="text-2xl font-semibold text-purple-100">Step 2: Choose Pixel Magic</h2>
-              </div>
-              <EnhancedPixelSlider
-                value={pixelSize}
-                onChange={handlePixelSizeChange}
-                disabled={loading}
-              />
-            </div>
+            {/* Pixelation Toggle - New Feature */}
+            <PixelationToggle
+              usePixelation={usePixelation}
+              onToggle={handleTogglePixelation}
+              disabled={loading}
+            />
 
-            {/* Original & Pixelated Side by Side */}
+            {/* Pixel Size Slider - Only show when pixelation is enabled */}
+            {usePixelation && (
+              <div className="glass-card rounded-2xl p-8 mb-8 glass-card-hover">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
+                    <Flower className="w-5 h-5 text-white" />
+                  </div>
+                  <h2 className="text-2xl font-semibold text-purple-100">Step 2: Choose Pixel Magic</h2>
+                </div>
+                <EnhancedPixelSlider
+                  value={pixelSize}
+                  onChange={handlePixelSizeChange}
+                  disabled={loading}
+                />
+              </div>
+            )}
+
+            {/* Preview Section */}
             <div className="grid md:grid-cols-2 gap-8 mb-8">
               <div className="glass-card rounded-2xl p-8 glass-card-hover">
                 <h3 className="text-xl font-semibold text-purple-100 mb-4 flex items-center gap-2">
@@ -209,7 +235,7 @@ function App() {
               <div className="glass-card rounded-2xl p-8 glass-card-hover">
                 <h3 className="text-xl font-semibold text-purple-100 mb-4 flex items-center gap-2">
                   <Star className="w-5 h-5 text-purple-300" />
-                  Pixelated Magic
+                  {usePixelation ? 'Pixelated Magic' : 'Ready for Download'}
                 </h3>
                 
                 {/* Toggle between normal and zoomed view */}
@@ -244,6 +270,15 @@ function App() {
                 ) : (
                   <PixelatedPreview canvas={pixelatedCanvas} loading={loading} />
                 )}
+                
+                {/* Info text when using original image */}
+                {!usePixelation && (
+                  <div className="mt-4 p-3 rounded-lg bg-purple-500/10 border border-purple-500/30">
+                    <p className="text-purple-200 text-xs text-center">
+                      ✨ Using original image quality - perfect for direct ICO conversion! ✨
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -256,7 +291,9 @@ function App() {
                 <h2 className="text-2xl font-semibold text-purple-100">Step 3: Download Your Icon</h2>
               </div>
               <p className="text-purple-200 mb-6">
-                Transform your pixel art into a Windows icon file (.ico) with mystical powers ✨
+                {usePixelation 
+                  ? 'Transform your pixel art into a Windows icon file (.ico) with mystical powers ✨'
+                  : 'Convert your original image directly to a Windows icon file (.ico) ✨'}
               </p>
               <EnhancedDownloadButton
                 canvas={pixelatedCanvas}
@@ -287,7 +324,7 @@ function App() {
             <p className="text-purple-200 text-center">
               ✨ <strong className="text-purple-100">Welcome to IconShrubs!</strong> ✨<br />
               Transform your images into mystical pixel art and download as Windows icons<br />
-              <span className="text-sm text-purple-300 mt-2 block">💡 Tip: PNG images can have their backgrounds removed for better icons!</span>
+              <span className="text-sm text-purple-300 mt-2 block">💡 Tip: Toggle between original and pixelated versions after uploading!</span>
             </p>
           </div>
         )}
