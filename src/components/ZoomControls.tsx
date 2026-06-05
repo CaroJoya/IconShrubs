@@ -1,54 +1,49 @@
+import { ZoomIn, ZoomOut } from 'lucide-react'
+
 interface ZoomControlsProps {
-    zoomLevel: number
-    onZoomIn: () => void
-    onZoomOut: () => void
-    onReset: () => void
-    canZoomIn: boolean
-    canZoomOut: boolean
-  }
-  
-  export function ZoomControls({
-    zoomLevel,
-    onZoomIn,
-    onZoomOut,
-    onReset,
-    canZoomIn,
-    canZoomOut
-  }: ZoomControlsProps) {
-    return (
-      <div className="flex items-center justify-between bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4">
-        <div className="flex items-center gap-2">
-          <button
-            onClick={onZoomOut}
-            disabled={!canZoomOut}
-            className="px-3 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white rounded font-medium transition"
-            title="Zoom Out"
-          >
-            −
-          </button>
-  
-          <div className="text-center min-w-24">
-            <p className="text-sm text-gray-600">Zoom</p>
-            <p className="text-lg font-bold text-gray-900">{zoomLevel}%</p>
-          </div>
-  
-          <button
-            onClick={onZoomIn}
-            disabled={!canZoomIn}
-            className="px-3 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white rounded font-medium transition"
-            title="Zoom In"
-          >
-            +
-          </button>
-        </div>
-  
+  zoomLevel: number
+  onZoomIn: () => void
+  onZoomOut: () => void
+  onReset: () => void
+  canZoomIn: boolean
+  canZoomOut: boolean
+}
+
+export function ZoomControls({
+  zoomLevel,
+  onZoomIn,
+  onZoomOut,
+  canZoomIn,
+  canZoomOut
+}: ZoomControlsProps) {
+  return (
+    <div className="flex items-center justify-center bg-gradient-to-r from-purple-900/40 to-pink-900/40 backdrop-blur-sm rounded-xl p-3 border border-purple-500/30 mb-4">
+      <div className="flex items-center gap-3">
         <button
-          onClick={onReset}
-          className="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 rounded font-medium transition"
-          title="Reset Zoom"
+          onClick={onZoomOut}
+          disabled={!canZoomOut}
+          className="p-2 rounded-lg bg-purple-600/80 hover:bg-purple-600 disabled:bg-gray-600/50 disabled:cursor-not-allowed text-white transition-all duration-200 hover:scale-105"
+          title="Zoom Out (50%)"
         >
-          Reset (100%)
+          <ZoomOut className="w-5 h-5" />
+        </button>
+
+        <div className="text-center min-w-[80px]">
+          <p className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-pink-300">
+            {zoomLevel}%
+          </p>
+          <p className="text-xs text-purple-400">Zoom Level</p>
+        </div>
+
+        <button
+          onClick={onZoomIn}
+          disabled={!canZoomIn}
+          className="p-2 rounded-lg bg-purple-600/80 hover:bg-purple-600 disabled:bg-gray-600/50 disabled:cursor-not-allowed text-white transition-all duration-200 hover:scale-105"
+          title="Zoom In (50%)"
+        >
+          <ZoomIn className="w-5 h-5" />
         </button>
       </div>
-    )
-  }
+    </div>
+  )
+}

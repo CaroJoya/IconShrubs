@@ -104,3 +104,89 @@
 .delay-1000 {
   animation-delay: 1s;
 }
+
+/* In src/index.css, add these styles */
+
+/* Dark scrollbars for better visibility - Override browser defaults */
+.overflow-auto::-webkit-scrollbar,
+div[style*="overflow: auto"]::-webkit-scrollbar {
+  width: 12px !important;
+  height: 12px !important;
+}
+
+.overflow-auto::-webkit-scrollbar-track,
+div[style*="overflow: auto"]::-webkit-scrollbar-track {
+  background: #1a1a2e !important;
+  border-radius: 6px !important;
+  border: 1px solid #333 !important;
+}
+
+.overflow-auto::-webkit-scrollbar-thumb,
+div[style*="overflow: auto"]::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #4a4a4a, #2a2a2a) !important;
+  border-radius: 6px !important;
+  border: 1px solid #555 !important;
+}
+
+.overflow-auto::-webkit-scrollbar-thumb:hover,
+div[style*="overflow: auto"]::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #5a5a5a, #3a3a3a) !important;
+}
+
+/* Firefox scrollbar styling */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #4a4a4a #1a1a2e;
+}
+
+/* Enhanced scrollbar styling for zoom container */
+.overflow-auto::-webkit-scrollbar,
+[style*="overflow: auto"]::-webkit-scrollbar {
+  width: 10px !important;
+  height: 10px !important;
+}
+
+.overflow-auto::-webkit-scrollbar-track,
+[style*="overflow: auto"]::-webkit-scrollbar-track {
+  background: #1e1b4b !important;
+  border-radius: 10px !important;
+  border: 1px solid rgba(139, 92, 246, 0.3) !important;
+}
+
+.overflow-auto::-webkit-scrollbar-thumb,
+[style*="overflow: auto"]::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #8b5cf6, #ec4899) !important;
+  border-radius: 10px !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.overflow-auto::-webkit-scrollbar-thumb:hover,
+[style*="overflow: auto"]::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #a78bfa, #f472b6) !important;
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #8b5cf6 #1e1b4b;
+}
+
+/* Black scrollbars for zoom container */
+.overflow-auto::-webkit-scrollbar {
+  width: 12px !important;
+  height: 12px !important;
+}
+
+.overflow-auto::-webkit-scrollbar-track {
+  background: #1a1a1a !important;
+  border-radius: 6px !important;
+}
+
+.overflow-auto::-webkit-scrollbar-thumb {
+  background: #4a4a4a !important;
+  border-radius: 6px !important;
+}
+
+.overflow-auto::-webkit-scrollbar-thumb:hover {
+  background: #5a5a5a !important;
+}
