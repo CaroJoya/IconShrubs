@@ -98,6 +98,17 @@ function App() {
     setA11yMessage('Image cleared')
   }
 
+  const handleDownloadPNG = () => {
+    if (pixelatedCanvas) {
+      const link = document.createElement('a')
+      link.download = `pixelart_${Date.now()}.png`
+      link.href = pixelatedCanvas.toDataURL('image/png')
+      link.click()
+      setA11yMessage('Pixelated image downloaded as PNG! ✨')
+      setShowDownloadSuccess(true)
+    }
+  }
+
   return (
     <div className="min-h-screen relative overflow-x-hidden">
       {/* Mystical Background Elements */}
@@ -249,17 +260,32 @@ function App() {
                   {usePixelation ? 'Pixelated Magic' : 'Ready for Download'}
                 </h3>
                 
-                {/* Toggle between normal and zoomed view */}
-                <div className="mb-4">
+                {/* Action buttons row */}
+                <div className="flex gap-3 mb-4">
                   <button
                     onClick={() => setShowZoomed(!showZoomed)}
-                    className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500 ${
+                    className={`flex-1 px-4 py-2 rounded-lg font-medium transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500 ${
                       showZoomed
                         ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
                         : 'glass-card text-purple-200 hover:bg-white/10'
                     }`}
                   >
                     {showZoomed ? '🔍 Zoomed View' : '👁️ Normal View'}
+                  </button>
+                  
+                  {/* NEW: Download PNG Button */}
+                  <button
+                    onClick={handleDownloadPNG}
+                    disabled={!pixelatedCanvas}
+                    className={`flex-1 px-4 py-2 rounded-lg font-medium transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-green-500 flex items-center justify-center gap-2 ${
+                      pixelatedCanvas
+                        ? 'bg-gradient-to-r from-emerald-600 to-green-600 text-white shadow-lg hover:scale-105'
+                        : 'glass-card text-gray-400 cursor-not-allowed opacity-50'
+                    }`}
+                    title="Download pixelated image as PNG"
+                  >
+                    <Download className="w-4 h-4" />
+                    📥 Save PNG
                   </button>
                 </div>
 
@@ -286,7 +312,18 @@ function App() {
                 {!usePixelation && (
                   <div className="mt-4 p-3 rounded-lg bg-purple-500/10 border border-purple-500/30">
                     <p className="text-purple-200 text-xs text-center">
-                      ✨ Using original image quality - perfect for direct ICO conversion! ✨
+                      ✨ Using original image quality - click "Save PNG" to download the current image! ✨
+                    </p>
+                  </div>
+                )}
+                
+                {/* NEW: Pixel art tip when pixelation is enabled */}
+                {usePixelation && pixelatedCanvas && (
+                  <div className="mt-4 p-3 rounded-lg bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/30">
+                    <p className="text-purple-200 text-xs text-center flex items-center justify-center gap-2">
+                      <Sparkles className="w-3 h-3" />
+                      Your pixel art is ready! Click "Save PNG" to download or use the ICO converter below
+                      <Sparkles className="w-3 h-3" />
                     </p>
                   </div>
                 )}
